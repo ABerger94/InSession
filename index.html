@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InSession Marketplace</title>
+    <link rel="icon" href="./insession-logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="InSession home">
+        <img class="brand-mark" src="./insession-logo.svg" alt="" aria-hidden="true" />
+        <span>InSession</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#catalog">Catalog</a>
+        <a href="#paths">Paths</a>
+        <a href="#instructors">Instructors</a>
+        <a href="#account">Account</a>
+      </nav>
+      <span class="user-badge" id="userBadge">Guest</span>
+      <button class="cart-button" id="cartToggle" type="button" aria-label="Open cart">
+        Cart <span id="cartCount">0</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Professional learning marketplace</p>
+          <h1>Find practical courses built for working teams.</h1>
+          <p>
+            Compare skill paths, preview lessons, save favorites, and build a checkout-ready
+            course plan for your next career move or team training sprint.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#catalog">Browse courses</a>
+            <a class="button secondary" href="#paths">View learning paths</a>
+          </div>
+        </div>
+        <div class="hero-panel" aria-label="Marketplace highlights">
+          <div>
+            <strong>42k</strong>
+            <span>active learners</span>
+          </div>
+          <div>
+            <strong>4.8</strong>
+            <span>average rating</span>
+          </div>
+          <div>
+            <strong>96%</strong>
+            <span>completion support</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="toolbar" id="catalog" aria-label="Course filters">
+        <div class="search-wrap">
+          <label for="searchInput">Search courses</label>
+          <input id="searchInput" type="search" placeholder="Search by title, skill, or instructor" />
+        </div>
+        <div class="control">
+          <label for="categoryFilter">Category</label>
+          <select id="categoryFilter"></select>
+        </div>
+        <div class="control">
+          <label for="levelFilter">Level</label>
+          <select id="levelFilter"></select>
+        </div>
+        <div class="control">
+          <label for="sortFilter">Sort</label>
+          <select id="sortFilter">
+            <option value="featured">Featured</option>
+            <option value="rating">Highest rated</option>
+            <option value="price-low">Price: low to high</option>
+            <option value="price-high">Price: high to low</option>
+            <option value="duration">Shortest first</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="market-layout">
+        <aside class="sidebar" aria-label="Marketplace summary">
+          <div class="summary-block">
+            <span class="summary-label">Showing</span>
+            <strong id="resultCount">0 courses</strong>
+          </div>
+          <div class="summary-block">
+            <span class="summary-label">Saved</span>
+            <strong id="savedCount">0 courses</strong>
+          </div>
+          <div class="price-filter">
+            <label for="priceRange">Max price: <strong id="priceValue">$300</strong></label>
+            <input id="priceRange" type="range" min="50" max="300" value="300" step="10" />
+          </div>
+          <button class="button ghost full" id="resetFilters" type="button">Reset filters</button>
+        </aside>
+
+        <section class="course-grid" id="courseGrid" aria-live="polite"></section>
+      </section>
+
+      <section class="paths" id="paths">
+        <div>
+          <p class="eyebrow">Structured paths</p>
+          <h2>Start with a complete plan.</h2>
+        </div>
+        <div class="path-grid">
+          <article>
+            <span>01</span>
+            <h3>Product Builder</h3>
+            <p>Strategy, research, UX, and analytics courses for shipping better products.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Data Operator</h3>
+            <p>SQL, BI dashboards, data cleaning, and business reporting for daily decisions.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>AI Workflow Lead</h3>
+            <p>Automation, evaluation, prompt systems, and governance for applied AI teams.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="instructors" id="instructors">
+        <div>
+          <p class="eyebrow">Instructor network</p>
+          <h2>Learn from practitioners with real operating experience.</h2>
+        </div>
+        <div class="instructor-strip">
+          <span>Product leaders</span>
+          <span>Data analysts</span>
+          <span>Design researchers</span>
+          <span>AI engineers</span>
+        </div>
+      </section>
+
+      <section class="account-section" id="account">
+        <div>
+          <p class="eyebrow">Learner account</p>
+          <h2>Sync your course plan and enrollment history.</h2>
+        </div>
+        <div class="account-grid">
+          <form class="account-card" id="accountForm">
+            <label for="accountName">Name</label>
+            <input id="accountName" name="name" type="text" placeholder="Alex Morgan" autocomplete="name" />
+            <label for="accountEmail">Email</label>
+            <input id="accountEmail" name="email" type="email" placeholder="learner@example.com" autocomplete="email" required />
+            <button class="button primary full" type="submit">Sign in / sync</button>
+            <p class="checkout-status" id="accountStatus" role="status"></p>
+          </form>
+          <div class="account-card">
+            <h3>Enrollment history</h3>
+            <div class="order-history" id="orderHistory"></div>
+          </div>
+          <div class="account-card">
+            <h3>Operator metrics</h3>
+            <div class="admin-metrics" id="adminMetrics"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="courseDialog" class="modal">
+      <div class="modal-body" id="courseDetail"></div>
+    </dialog>
+
+    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Shopping cart">
+      <div class="cart-header">
+        <div>
+          <span class="eyebrow">Checkout</span>
+          <h2>Your course plan</h2>
+        </div>
+        <button class="icon-button" id="closeCart" type="button" aria-label="Close cart">x</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-footer">
+        <div class="total-row">
+          <span>Total</span>
+          <strong id="cartTotal">$0</strong>
+        </div>
+        <form id="checkoutForm">
+          <label for="checkoutName">Learner name</label>
+          <input id="checkoutName" name="name" type="text" placeholder="Alex Morgan" autocomplete="name" />
+          <label for="emailInput">Send receipt to</label>
+          <input id="emailInput" name="email" type="email" placeholder="learner@example.com" required />
+          <button class="button primary full" type="submit">Complete enrollment</button>
+        </form>
+        <p class="checkout-status" id="checkoutStatus" role="status"></p>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim" hidden></div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
