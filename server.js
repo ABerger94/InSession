@@ -6,9 +6,10 @@ const path = require("node:path");
 const { URL } = require("node:url");
 
 const rootDir = __dirname;
-const dataDir = path.join(rootDir, "data");
+const dataDir = process.env.VERCEL ? path.join("/tmp", "insession-data") : path.join(rootDir, "data");
 const seedPath = path.join(dataDir, "seed.json");
 const storePath = path.join(dataDir, "store.json");
+const sourceSeedPath = path.join(rootDir, "data", "seed.json");
 const port = Number(process.env.PORT || 4173);
 
 const mimeTypes = {
@@ -24,6 +25,9 @@ const rateLimits = new Map();
 
 async function ensureStore() {
   await fsp.mkdir(dataDir, { recursive: true });
+  if (!fs.existsSync(seedPath)) {
+    await fsp.copyFile(sourceSeedPath, seedPath);
+  }
   if (!fs.existsSync(storePath)) {
     await fsp.copyFile(seedPath, storePath);
   }
@@ -358,7 +362,7 @@ async function serveStatic(req, res, url) {
   }
 }
 
-const server = http.createServer(async (req, res) => {
+async function handleRequest(req, res) {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -376,10 +380,15 @@ const server = http.createServer(async (req, res) => {
   } catch (error) {
     sendError(res, 500, error.message || "Unexpected server error.");
   }
-});
+}
 
-ensureStore().then(() => {
-  server.listen(port, () => {
-    console.log(`InSession marketplace running at http://localhost:${port}`);
+if (require.main === module) {
+  const server = http.createServer(handleRequest);
+  ensureStore().then(() => {
+    server.listen(port, () => {
+      console.log(`InSession marketplace running at http://localhost:${port}`);
+    });
   });
-});
+}
+
+module.exports = { handleRequest };
