@@ -2,7 +2,7 @@
   "courses": [
     {
       "id": "ai-workflows",
-      "title": "AI Workflow Design for Operations Teams",
+      "title": "AI Workflows for Everyday Life",
       "instructor": "Maya Chen",
       "category": "AI",
       "level": "Intermediate",
@@ -12,9 +12,9 @@
       "price": 189,
       "seats": 45,
       "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
-      "summary": "Design reliable AI-assisted workflows, evaluations, and handoffs for repeatable business operations.",
-      "skills": ["Prompt systems", "Automation", "Evaluation"],
-      "lessons": ["Map repeatable work", "Design assistant boundaries", "Build evaluation rubrics", "Launch monitored workflows"]
+      "summary": "Use AI assistants to organize tasks, plan projects, learn faster, and simplify everyday routines.",
+      "skills": ["Prompting", "Planning", "Automation"],
+      "lessons": ["Choose useful AI tasks", "Write clearer prompts", "Check AI answers", "Build daily routines"]
     },
     {
       "id": "product-discovery",
@@ -44,9 +44,9 @@
       "price": 159,
       "seats": 32,
       "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
-      "summary": "Turn messy metrics into clear dashboards, executive narratives, and decision-ready reporting.",
-      "skills": ["Analytics", "BI", "Reporting"],
-      "lessons": ["Choose decision metrics", "Clean dashboard layouts", "Write metric narratives", "Present tradeoffs"]
+      "summary": "Turn personal, school, or small-project data into clear charts and simple stories.",
+      "skills": ["Analytics", "Charts", "Reporting"],
+      "lessons": ["Choose useful numbers", "Clean dashboard layouts", "Write simple insights", "Share what you found"]
     },
     {
       "id": "ux-systems",
@@ -76,15 +76,15 @@
       "price": 99,
       "seats": 120,
       "image": "https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=900&q=80",
-      "summary": "Write joins, aggregations, and quality checks that answer everyday operational questions.",
+      "summary": "Learn practical SQL for organizing information, answering questions, and exploring data.",
       "skills": ["SQL", "Data quality", "Analysis"],
-      "lessons": ["Select and filter", "Join business tables", "Aggregate metrics", "Check data quality"]
+      "lessons": ["Select and filter", "Join related tables", "Count and summarize", "Check data quality"]
     },
     {
-      "id": "team-leadership",
-      "title": "High-Trust Team Leadership",
+      "id": "confident-communication",
+      "title": "Confident Communication",
       "instructor": "Samira Wells",
-      "category": "Leadership",
+      "category": "Life Skills",
       "level": "Intermediate",
       "rating": 4.8,
       "reviews": 1676,
@@ -92,9 +92,9 @@
       "price": 119,
       "seats": 64,
       "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
-      "summary": "Build operating rhythms, feedback habits, and decision practices for teams that move quickly.",
-      "skills": ["Management", "Feedback", "Planning"],
-      "lessons": ["Set team rituals", "Clarify decisions", "Coach in context", "Repair trust quickly"]
+      "summary": "Build clearer conversations, kinder feedback habits, and better decision-making in daily life.",
+      "skills": ["Communication", "Feedback", "Planning"],
+      "lessons": ["Prepare for conversations", "Clarify decisions", "Give useful feedback", "Handle tension calmly"]
     },
     {
       "id": "frontend-accessibility",

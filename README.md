@@ -16,7 +16,7 @@ Open `http://localhost:4173`.
 - Learner sign-in using email-based local sessions
 - Saved courses and cart synchronization for signed-in learners
 - Checkout API with persisted orders and enrollment history
-- Admin metrics API for users, revenue, orders, enrollments, and top courses
+- Marketplace metrics API for users, revenue, orders, enrollments, and top courses
 - Static production serving from the same Node process
 - Postgres persistence when `DATABASE_URL` or `POSTGRES_URL` is configured
 - Local JSON fallback in `data/store.json`
