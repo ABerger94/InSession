@@ -1021,7 +1021,7 @@ async function openLearning(courseId) {
                   <input type="checkbox" data-action="progress" data-id="${course.id}" data-module="${index}" ${completed.has(index) ? "checked" : ""}>
                   <strong>Module ${index + 1}: ${escapeHtml(module.title)}</strong>
                 </label>
-                <ul>${module.lessons.map((lesson) => `<li>${escapeHtml(lesson)}</li>`).join("")}</ul>
+                <ul>${module.lessons.map((lesson) => `<li>${escapeHtml(typeof lesson === "string" ? lesson : lesson.title)}</li>`).join("")}</ul>
               </article>
             `,
           )
