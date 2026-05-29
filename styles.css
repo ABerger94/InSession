@@ -181,6 +181,11 @@ main {
   background: var(--accent-dark);
 }
 
+.button.wallet {
+  background: #000;
+  color: #fff;
+}
+
 .button.secondary,
 .button.ghost {
   background: var(--surface);
@@ -406,7 +411,8 @@ select:focus {
 
 .paths,
 .instructors,
-.account-section {
+.account-section,
+.learning-section {
   display: grid;
   gap: 24px;
   grid-template-columns: 300px minmax(0, 1fr);
@@ -415,7 +421,8 @@ select:focus {
 
 .paths h2,
 .instructors h2,
-.account-section h2 {
+.account-section h2,
+.learning-section h2 {
   font-size: clamp(1.7rem, 3vw, 2.7rem);
   line-height: 1.08;
   margin: 0;
@@ -515,6 +522,10 @@ select:focus {
   margin: 0;
 }
 
+.order-card-footer {
+  gap: 12px;
+}
+
 .admin-metrics article {
   background: #f6f8f6;
   border-radius: 8px;
@@ -524,6 +535,73 @@ select:focus {
 
 .admin-metrics strong {
   font-size: 1.2rem;
+}
+
+.learning-list {
+  display: grid;
+  gap: 16px;
+}
+
+.learning-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 180px minmax(0, 1fr);
+  padding: 14px;
+}
+
+.learning-card img {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.learning-card h3 {
+  margin: 10px 0 8px;
+}
+
+.learning-card p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.learning-actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.progress-track {
+  background: #e6e8ee;
+  border-radius: 999px;
+  height: 9px;
+  margin: 14px 0;
+  overflow: hidden;
+}
+
+.progress-track span {
+  background: var(--accent);
+  display: block;
+  height: 100%;
+}
+
+.module-check {
+  align-items: center;
+  color: var(--ink);
+  display: flex;
+  gap: 10px;
+  margin: 0;
+}
+
+.module-check input {
+  min-height: auto;
+  width: auto;
 }
 
 .modal {
@@ -702,6 +780,43 @@ select:focus {
   gap: 16px;
 }
 
+.payment-options {
+  display: grid;
+  gap: 8px;
+}
+
+.payment-option {
+  align-items: center;
+  background: #f6f8f6;
+  border-radius: 8px;
+  color: var(--ink);
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 10px;
+}
+
+.payment-option input {
+  min-height: auto;
+  width: auto;
+}
+
+.card-row {
+  display: grid;
+  gap: 10px;
+}
+
+.card-row {
+  grid-template-columns: 1fr 1fr;
+}
+
+.payment-note {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
 .total-row {
   font-size: 1.15rem;
 }
@@ -732,6 +847,7 @@ select:focus {
   .paths,
   .instructors,
   .account-section,
+  .learning-section,
   .account-grid {
     grid-template-columns: 1fr;
   }
@@ -778,8 +894,14 @@ select:focus {
   .market-layout,
   .paths,
   .instructors,
-  .account-section {
+  .account-section,
+  .learning-section {
     padding-left: 18px;
     padding-right: 18px;
+  }
+
+  .learning-card,
+  .card-row {
+    grid-template-columns: 1fr;
   }
 }

@@ -25,6 +25,7 @@
         <a href="#catalog">Catalog</a>
         <a href="#paths">Paths</a>
         <a href="#instructors">Instructors</a>
+        <a href="#learning">My Learning</a>
         <a href="#account">Account</a>
       </nav>
       <span class="user-badge" id="userBadge">Guest</span>
@@ -169,6 +170,14 @@
           </div>
         </div>
       </section>
+
+      <section class="learning-section" id="learning">
+        <div>
+          <p class="eyebrow">My learning</p>
+          <h2>Continue courses you are enrolled in.</h2>
+        </div>
+        <div class="learning-list" id="enrolledCourses"></div>
+      </section>
     </main>
 
     <dialog id="courseDialog" class="modal">
@@ -194,6 +203,18 @@
           <input id="checkoutName" name="name" type="text" placeholder="Alex Morgan" autocomplete="name" />
           <label for="emailInput">Send receipt to</label>
           <input id="emailInput" name="email" type="email" placeholder="learner@example.com" required />
+          <div class="payment-options" aria-label="Payment options">
+            <label class="payment-option">
+              <input name="paymentMethod" type="radio" value="card" disabled />
+              <span>Card checkout coming soon</span>
+            </label>
+            <label class="payment-option">
+              <input name="paymentMethod" type="radio" value="manual" checked />
+              <span>Invoice / pay later</span>
+            </label>
+          </div>
+          <button class="button wallet full" id="walletButton" type="button">Pay with Apple Pay</button>
+          <p class="payment-note">Apple Pay opens where supported. Live settlement requires connecting an Apple Pay-capable payment processor.</p>
           <button class="button primary full" type="submit">Complete enrollment</button>
         </form>
         <p class="checkout-status" id="checkoutStatus" role="status"></p>

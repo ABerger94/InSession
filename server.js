@@ -162,6 +162,7 @@ function publicUser(user) {
     name: user.name,
     saved: user.saved || [],
     cart: user.cart || [],
+    progress: user.progress || {},
     createdAt: user.createdAt,
   };
 }
@@ -295,7 +296,9 @@ async function handleApi(req, res, url) {
       return;
     }
     const orders = store.orders.filter((order) => order.userId === user.id);
-    sendJson(res, 200, { user: publicUser(user), orders });
+    const enrolledCourseIds = [...new Set(orders.flatMap((order) => order.courseIds || []))];
+    const enrolledCourses = enrolledCourseIds.map((id) => store.courses.find((course) => course.id === id)).filter(Boolean);
+    sendJson(res, 200, { user: publicUser(user), orders, enrolledCourses });
     return;
   }
 
@@ -325,13 +328,44 @@ async function handleApi(req, res, url) {
     return;
   }
 
+  if (req.method === "PUT" && url.pathname === "/api/me/progress") {
+    const user = getCurrentUser(req, store);
+    if (!user) {
+      sendError(res, 401, "Sign in to track course progress.");
+      return;
+    }
+    const body = await readBody(req);
+    const courseId = String(body.courseId || "");
+    const completedModules = Array.isArray(body.completedModules) ? body.completedModules.map(Number).filter(Number.isFinite) : [];
+    const enrolledIds = new Set(store.orders.filter((order) => order.userId === user.id).flatMap((order) => order.courseIds || []));
+    if (!enrolledIds.has(courseId)) {
+      sendError(res, 403, "Enroll in this course before tracking progress.");
+      return;
+    }
+    user.progress = user.progress || {};
+    user.progress[courseId] = {
+      completedModules: [...new Set(completedModules)].sort((a, b) => a - b),
+      updatedAt: new Date().toISOString(),
+    };
+    await writeStore(store);
+    sendJson(res, 200, { user: publicUser(user) });
+    return;
+  }
+
   if (req.method === "POST" && url.pathname === "/api/orders") {
     const body = await readBody(req);
     const email = normalizeEmail(body.email);
     const name = String(body.name || "").trim() || email.split("@")[0];
     const courseIds = Array.isArray(body.courseIds) ? body.courseIds : [];
+    const payment = body.payment || {};
+    const paymentMethod = String(payment.method || "manual");
+    const allowedMethods = new Set(["apple_pay", "browser_wallet", "card", "manual"]);
     if (!isEmail(email)) {
       sendError(res, 400, "Enter a valid checkout email.");
+      return;
+    }
+    if (!allowedMethods.has(paymentMethod)) {
+      sendError(res, 400, "Choose a valid payment method.");
       return;
     }
     const totals = calculateOrder(courseIds, store.courses);
@@ -365,6 +399,16 @@ async function handleApi(req, res, url) {
       subtotal: totals.subtotal,
       platformFee: totals.platformFee,
       total: totals.total,
+      payment: {
+        method: paymentMethod,
+        status: paymentMethod === "apple_pay" || paymentMethod === "browser_wallet" ? "authorized" : "pending_processor",
+        provider: payment.provider || "insession-checkout",
+        transactionId: payment.transactionId || `pay_${crypto.randomBytes(8).toString("hex")}`,
+        note:
+          paymentMethod === "manual" || paymentMethod === "card"
+            ? "Enrollment recorded without a live payment processor. Connect Stripe or another Apple Pay-capable processor before collecting real payments."
+            : "Wallet/card payment authorized in the checkout flow. Connect a live processor for settlement.",
+      },
       createdAt: new Date().toISOString(),
     };
     store.orders.unshift(order);

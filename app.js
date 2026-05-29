@@ -25,6 +25,7 @@ const state = {
   saved: JSON.parse(localStorage.getItem("insession-saved") || "[]"),
   user: JSON.parse(localStorage.getItem("insession-user") || "null"),
   orders: [],
+  enrolledCourses: [],
   metrics: null,
   loading: true,
 };
@@ -38,6 +39,7 @@ const selectors = {
   categoryFilter: document.querySelector("#categoryFilter"),
   checkoutForm: document.querySelector("#checkoutForm"),
   checkoutStatus: document.querySelector("#checkoutStatus"),
+  cardPayment: document.querySelector("#cardPayment"),
   closeCart: document.querySelector("#closeCart"),
   courseDetail: document.querySelector("#courseDetail"),
   courseDialog: document.querySelector("#courseDialog"),
@@ -48,6 +50,7 @@ const selectors = {
   cartToggle: document.querySelector("#cartToggle"),
   cartTotal: document.querySelector("#cartTotal"),
   emailInput: document.querySelector("#emailInput"),
+  enrolledCourses: document.querySelector("#enrolledCourses"),
   levelFilter: document.querySelector("#levelFilter"),
   orderHistory: document.querySelector("#orderHistory"),
   priceRange: document.querySelector("#priceRange"),
@@ -59,6 +62,7 @@ const selectors = {
   searchInput: document.querySelector("#searchInput"),
   sortFilter: document.querySelector("#sortFilter"),
   userBadge: document.querySelector("#userBadge"),
+  walletButton: document.querySelector("#walletButton"),
 };
 
 function money(value) {
@@ -136,6 +140,10 @@ async function loadAccount() {
     const data = await api.request("/api/me");
     state.user = data.user;
     state.orders = data.orders || [];
+    state.enrolledCourses = data.enrolledCourses || [];
+    state.enrolledCourses.forEach((course) => {
+      state.courseById[course.id] = course;
+    });
     state.saved = data.user.saved || state.saved;
     state.cart = data.user.cart?.length ? data.user.cart : state.cart;
     persistLocal();
@@ -144,6 +152,7 @@ async function loadAccount() {
     localStorage.removeItem("insession-token");
   }
   renderAccount();
+  renderLearning();
   renderCart();
   renderCourses();
 }
@@ -275,10 +284,44 @@ function renderAccount() {
             <span>${new Date(order.createdAt).toLocaleDateString()}</span>
           </div>
           <p>${order.items.map((item) => escapeHtml(item.title)).join(", ")}</p>
-          <strong>${money(order.total)}</strong>
+          <div class="order-card-footer">
+            <strong>${money(order.total)}</strong>
+            <span>${escapeHtml(order.payment?.method || "manual")} / ${escapeHtml(order.payment?.status || "recorded")}</span>
+          </div>
         </article>
       `,
     )
+    .join("");
+}
+
+function renderLearning() {
+  if (!selectors.enrolledCourses) return;
+  if (!state.enrolledCourses.length) {
+    selectors.enrolledCourses.innerHTML = '<div class="empty compact">Enroll in a course to start learning here.</div>';
+    return;
+  }
+
+  selectors.enrolledCourses.innerHTML = state.enrolledCourses
+    .map((course) => {
+      const totalModules = Math.max((course.modules || []).length, 1);
+      const completed = state.user?.progress?.[course.id]?.completedModules?.length || 0;
+      const percent = Math.round((completed / totalModules) * 100);
+      return `
+        <article class="learning-card">
+          <img src="${escapeHtml(course.image)}" alt="${escapeHtml(course.title)} course image">
+          <div>
+            <span class="pill">${escapeHtml(course.category)}</span>
+            <h3>${escapeHtml(course.title)}</h3>
+            <p>${escapeHtml(course.summary)}</p>
+            <div class="progress-track" aria-label="${percent}% complete"><span style="width: ${percent}%"></span></div>
+            <div class="learning-actions">
+              <strong>${percent}% complete</strong>
+              <button class="small-button" type="button" data-action="learn" data-id="${course.id}">Open course</button>
+            </div>
+          </div>
+        </article>
+      `;
+    })
     .join("");
 }
 
@@ -356,9 +399,51 @@ async function openDetail(courseId) {
   selectors.courseDialog.showModal();
 }
 
+async function openLearning(courseId) {
+  const data = await api.request(`/api/courses/${encodeURIComponent(courseId)}`);
+  const course = data.course;
+  state.courseById[course.id] = course;
+  const completed = new Set(state.user?.progress?.[course.id]?.completedModules || []);
+  selectors.courseDetail.innerHTML = `
+    <div class="detail-content learning-reader">
+      <div>
+        <p class="eyebrow">Enrolled course / ${escapeHtml(course.level)} / ${course.duration} hours</p>
+        <h2>${escapeHtml(course.title)}</h2>
+      </div>
+      <p>${escapeHtml(course.summary)}</p>
+      <div class="module-list">
+        ${(course.modules || [])
+          .map(
+            (module, index) => `
+              <article>
+                <label class="module-check">
+                  <input type="checkbox" data-action="progress" data-id="${course.id}" data-module="${index}" ${completed.has(index) ? "checked" : ""}>
+                  <strong>Module ${index + 1}: ${escapeHtml(module.title)}</strong>
+                </label>
+                <ul>${module.lessons.map((lesson) => `<li>${escapeHtml(lesson)}</li>`).join("")}</ul>
+              </article>
+            `,
+          )
+          .join("")}
+      </div>
+      ${course.project ? `<section class="detail-section project-box"><h3>Course project</h3><p>${escapeHtml(course.project)}</p></section>` : ""}
+      <div class="course-footer">
+        <span class="price">Included in enrollment</span>
+        <button class="small-button alt" type="button" data-action="close-detail">Close</button>
+      </div>
+    </div>
+  `;
+  selectors.courseDialog.showModal();
+}
+
 async function handleCourseAction(action, courseId) {
   if (action === "detail") {
     await openDetail(courseId);
+    return;
+  }
+
+  if (action === "learn") {
+    await openLearning(courseId);
     return;
   }
 
@@ -450,6 +535,22 @@ function bindEvents() {
     else handleCourseAction(action, id).catch(showError);
   });
 
+  document.addEventListener("change", async (event) => {
+    const progressTarget = event.target.closest('[data-action="progress"]');
+    if (!progressTarget) return;
+    const courseId = progressTarget.dataset.id;
+    const checkedModules = [...selectors.courseDetail.querySelectorAll(`[data-action="progress"][data-id="${CSS.escape(courseId)}"]:checked`)].map((input) =>
+      Number(input.dataset.module),
+    );
+    const data = await api.request("/api/me/progress", {
+      method: "PUT",
+      body: JSON.stringify({ courseId, completedModules: checkedModules }),
+    });
+    state.user = data.user;
+    persistLocal();
+    renderLearning();
+  });
+
   selectors.cartToggle.addEventListener("click", () => toggleCart(true));
   selectors.closeCart.addEventListener("click", () => toggleCart(false));
   selectors.scrim.addEventListener("click", () => toggleCart(false));
@@ -479,24 +580,87 @@ function bindEvents() {
       return;
     }
     const form = new FormData(event.currentTarget);
-    const data = await api.request("/api/orders", {
-      method: "POST",
-      body: JSON.stringify({
-        name: form.get("name"),
-        email: form.get("email"),
-        courseIds: state.cart,
-      }),
-    });
-    api.token = data.token;
-    localStorage.setItem("insession-token", data.token);
-    state.user = data.user;
-    state.cart = [];
-    selectors.checkoutStatus.textContent = `Enrollment confirmed: ${data.order.id}`;
-    persistLocal();
-    await loadAccount();
-    await loadCatalog();
-    await loadMetrics();
+    const data = await createOrder(form, { method: form.get("paymentMethod") || "card", provider: "insession-checkout" });
+    await afterOrderCreated(data);
   });
+
+  selectors.walletButton.addEventListener("click", async () => {
+    if (!state.cart.length) {
+      selectors.checkoutStatus.textContent = "Add at least one course before paying.";
+      return;
+    }
+    const form = new FormData(selectors.checkoutForm);
+    if (!form.get("email")) {
+      selectors.checkoutStatus.textContent = "Enter your email before using Apple Pay.";
+      return;
+    }
+    if (!window.PaymentRequest) {
+      selectors.checkoutStatus.textContent = "Apple Pay is not available in this browser. Use card checkout below.";
+      return;
+    }
+    const cartCourses = state.cart.map((id) => findCourse(id)).filter(Boolean);
+    const subtotal = cartCourses.reduce((sum, course) => sum + course.price, 0);
+    const platformFee = Math.round(subtotal * 0.03);
+    const total = subtotal + platformFee;
+    try {
+      const request = new PaymentRequest(
+        [
+          {
+            supportedMethods: "https://apple.com/apple-pay",
+            data: {
+              version: 3,
+              merchantIdentifier: "merchant.com.insession.learning",
+              merchantCapabilities: ["supports3DS"],
+              supportedNetworks: ["visa", "masterCard", "amex", "discover"],
+              countryCode: "US",
+            },
+          },
+          { supportedMethods: "basic-card" },
+        ],
+        {
+          total: { label: "InSession enrollment", amount: { currency: "USD", value: total.toFixed(2) } },
+          displayItems: [
+            { label: "Courses", amount: { currency: "USD", value: subtotal.toFixed(2) } },
+            { label: "Platform fee", amount: { currency: "USD", value: platformFee.toFixed(2) } },
+          ],
+        },
+      );
+      const paymentResponse = await request.show();
+      await paymentResponse.complete("success");
+      const data = await createOrder(form, {
+        method: paymentResponse.methodName.includes("apple") ? "apple_pay" : "browser_wallet",
+        provider: "payment-request",
+        transactionId: `wallet_${Date.now()}`,
+      });
+      await afterOrderCreated(data);
+    } catch (error) {
+      selectors.checkoutStatus.textContent = error.name === "AbortError" ? "Payment canceled." : error.message;
+    }
+  });
+}
+
+function createOrder(form, payment) {
+  return api.request("/api/orders", {
+    method: "POST",
+    body: JSON.stringify({
+      name: form.get("name"),
+      email: form.get("email"),
+      courseIds: state.cart,
+      payment,
+    }),
+  });
+}
+
+async function afterOrderCreated(data) {
+  api.token = data.token;
+  localStorage.setItem("insession-token", data.token);
+  state.user = data.user;
+  state.cart = [];
+  selectors.checkoutStatus.textContent = `Enrollment confirmed: ${data.order.id}`;
+  persistLocal();
+  await loadAccount();
+  await loadCatalog();
+  await loadMetrics();
 }
 
 async function init() {
