@@ -2,10 +2,10 @@
   "version": 2,
   "functions": {
     "server.js": {
-      "includeFiles": "{index.html,styles.css,app.js,insession-logo.svg,favicon.svg,data/seed.json}"
+      "includeFiles": "{index.html,styles.css,app.js,insession-logo.svg,favicon.svg,apple-touch-icon.png,icon-192.png,icon-512.png,site.webmanifest,data/seed.json}"
     },
     "api/[...path].js": {
-      "includeFiles": "{index.html,styles.css,app.js,insession-logo.svg,favicon.svg,data/seed.json}"
+      "includeFiles": "{index.html,styles.css,app.js,insession-logo.svg,favicon.svg,apple-touch-icon.png,icon-192.png,icon-512.png,site.webmanifest,data/seed.json}"
     }
   },
   "rewrites": [

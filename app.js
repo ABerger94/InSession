@@ -190,6 +190,7 @@ function renderCourses() {
             <div class="meta-row">
               <span class="pill">${escapeHtml(course.category)}</span>
               <span class="pill level">${escapeHtml(course.level)}</span>
+              ${course.pathId === "ai-native-builder" ? '<span class="pill path-pill">AI Builder Path</span>' : ""}
               <span class="pill seats">${course.seats} seats</span>
             </div>
             <h3>${escapeHtml(course.title)}</h3>
@@ -305,6 +306,8 @@ async function openDetail(courseId) {
   const data = await api.request(`/api/courses/${encodeURIComponent(courseId)}`);
   const course = data.course;
   state.courseById[course.id] = course;
+  const modules = course.modules || [];
+  const outcomes = course.outcomes || [];
   selectors.courseDetail.innerHTML = `
     <img class="detail-hero" src="${escapeHtml(course.image)}" alt="${escapeHtml(course.title)} detail image">
     <div class="detail-content">
@@ -316,9 +319,31 @@ async function openDetail(courseId) {
       <div class="meta-row">
         ${course.skills.map((skill) => `<span class="pill">${escapeHtml(skill)}</span>`).join("")}
       </div>
+      ${
+        outcomes.length
+          ? `<section class="detail-section"><h3>What you will be able to do</h3><ul class="outcome-list">${outcomes
+              .map((outcome) => `<li>${escapeHtml(outcome)}</li>`)
+              .join("")}</ul></section>`
+          : ""
+      }
       <ul class="lesson-list">
         ${course.lessons.map((lesson, index) => `<li><span>${index + 1}. ${escapeHtml(lesson)}</span><strong>${index === 0 ? "Preview" : "Lesson"}</strong></li>`).join("")}
       </ul>
+      ${
+        modules.length
+          ? `<section class="detail-section"><h3>Full course outline</h3><div class="module-list">${modules
+              .map(
+                (module, index) => `
+                  <article>
+                    <strong>Module ${index + 1}: ${escapeHtml(module.title)}</strong>
+                    <ul>${module.lessons.map((lesson) => `<li>${escapeHtml(lesson)}</li>`).join("")}</ul>
+                  </article>
+                `,
+              )
+              .join("")}</div></section>`
+          : ""
+      }
+      ${course.project ? `<section class="detail-section project-box"><h3>Capstone project</h3><p>${escapeHtml(course.project)}</p></section>` : ""}
       <div class="course-footer">
         <span class="price">${money(course.price)}</span>
         <div class="card-actions">

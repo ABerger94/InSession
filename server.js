@@ -31,6 +31,17 @@ const mimeTypes = {
 
 const rateLimits = new Map();
 
+function mergeSeed(existing, seed) {
+  if ((existing.seedVersion || 0) >= (seed.seedVersion || 1)) return existing;
+  return {
+    ...existing,
+    seedVersion: seed.seedVersion || 1,
+    courses: seed.courses,
+    users: existing.users || [],
+    orders: existing.orders || [],
+  };
+}
+
 async function ensureStore() {
   if (pool) {
     const seed = JSON.parse(await fsp.readFile(sourceSeedPath, "utf8"));
@@ -49,6 +60,11 @@ async function ensureStore() {
       `,
       ["default", JSON.stringify(seed)],
     );
+    const result = await pool.query("SELECT data FROM app_store WHERE id = $1", ["default"]);
+    const merged = mergeSeed(result.rows[0].data, seed);
+    if (merged !== result.rows[0].data) {
+      await pool.query("UPDATE app_store SET data = $2::jsonb, updated_at = NOW() WHERE id = $1", ["default", JSON.stringify(merged)]);
+    }
     return;
   }
 
@@ -58,6 +74,13 @@ async function ensureStore() {
   }
   if (!fs.existsSync(storePath)) {
     await fsp.copyFile(seedPath, storePath);
+  } else {
+    const seed = JSON.parse(await fsp.readFile(seedPath, "utf8"));
+    const existing = JSON.parse(await fsp.readFile(storePath, "utf8"));
+    const merged = mergeSeed(existing, seed);
+    if (merged !== existing) {
+      await fsp.writeFile(storePath, `${JSON.stringify(merged, null, 2)}\n`);
+    }
   }
 }
 

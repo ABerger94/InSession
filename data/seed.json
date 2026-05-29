@@ -1,20 +1,255 @@
 {
+  "seedVersion": 2,
   "courses": [
     {
-      "id": "ai-workflows",
-      "title": "AI Workflows for Everyday Life",
+      "id": "ai-native-builder-foundations",
+      "pathId": "ai-native-builder",
+      "pathOrder": 1,
+      "title": "AI Native Builder Foundations",
       "instructor": "Maya Chen",
-      "category": "AI",
+      "category": "AI Native Builder",
+      "level": "Beginner",
+      "rating": 4.9,
+      "reviews": 2460,
+      "duration": 6,
+      "price": 129,
+      "seats": 90,
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+      "summary": "Learn the product developer mindset for building useful AI-powered tools without getting lost in hype.",
+      "skills": ["AI product thinking", "Use-case design", "Rapid prototyping"],
+      "outcomes": [
+        "Choose AI use cases that solve real user problems",
+        "Map a product idea into inputs, outputs, risks, and user value",
+        "Create a build plan for a small AI-native product"
+      ],
+      "project": "Write a one-page product brief for an AI assistant that helps a real person complete a recurring task.",
+      "lessons": ["What AI-native products do differently", "Jobs-to-be-done for AI tools", "Model capabilities and limits", "Choosing your first product wedge"],
+      "modules": [
+        {
+          "title": "AI-Native Product Mindset",
+          "lessons": ["From software features to intelligent workflows", "Where AI adds leverage", "Common failure patterns in AI products"]
+        },
+        {
+          "title": "Problem Selection",
+          "lessons": ["Find repeated messy work", "Separate novelty from value", "Define success in plain language"]
+        },
+        {
+          "title": "Builder Operating System",
+          "lessons": ["Scope a one-week prototype", "Pick tools and constraints", "Plan feedback loops"]
+        }
+      ]
+    },
+    {
+      "id": "prompt-systems-product-developers",
+      "pathId": "ai-native-builder",
+      "pathOrder": 2,
+      "title": "Prompt Systems for Product Developers",
+      "instructor": "Maya Chen",
+      "category": "AI Native Builder",
+      "level": "Beginner",
+      "rating": 4.8,
+      "reviews": 1984,
+      "duration": 7,
+      "price": 149,
+      "seats": 75,
+      "image": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=900&q=80",
+      "summary": "Design reusable prompt systems that turn vague requests into reliable product behavior.",
+      "skills": ["Prompt design", "Instruction hierarchy", "Structured outputs"],
+      "outcomes": [
+        "Write prompts that produce consistent outputs",
+        "Use roles, examples, constraints, and output schemas",
+        "Turn one-off prompts into reusable product flows"
+      ],
+      "project": "Build a reusable prompt pack for an AI lesson planner, research helper, or personal productivity coach.",
+      "lessons": ["Prompt anatomy", "Context windows", "Examples and rubrics", "Output schemas"],
+      "modules": [
+        {
+          "title": "Reliable Prompt Patterns",
+          "lessons": ["Role and task framing", "Context and constraints", "Few-shot examples that matter"]
+        },
+        {
+          "title": "Structured Product Output",
+          "lessons": ["JSON-style responses", "Error-resistant formats", "Designing fallback behavior"]
+        },
+        {
+          "title": "Prompt Testing",
+          "lessons": ["Create test cases", "Compare prompt versions", "Document reusable prompt contracts"]
+        }
+      ]
+    },
+    {
+      "id": "ai-prototyping-no-code-low-code",
+      "pathId": "ai-native-builder",
+      "pathOrder": 3,
+      "title": "AI Prototyping with No-Code and Low-Code Tools",
+      "instructor": "Andre Patel",
+      "category": "AI Native Builder",
+      "level": "Intermediate",
+      "rating": 4.8,
+      "reviews": 1740,
+      "duration": 9,
+      "price": 179,
+      "seats": 54,
+      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80",
+      "summary": "Move from idea to clickable AI prototype using practical tools, lightweight data, and clear user flows.",
+      "skills": ["Prototyping", "User flows", "Automation"],
+      "outcomes": [
+        "Sketch an AI product flow from user request to final output",
+        "Build a clickable prototype with realistic states",
+        "Connect forms, databases, and AI steps into a working demo"
+      ],
+      "project": "Prototype a personal AI product such as a study planner, recipe helper, job-search assistant, or content repurposer.",
+      "lessons": ["Prototype scope", "AI flow diagrams", "Demo data", "Testing a clickable build"],
+      "modules": [
+        {
+          "title": "Prototype Design",
+          "lessons": ["Define the happy path", "Plan empty and error states", "Create believable demo data"]
+        },
+        {
+          "title": "No-Code AI Stack",
+          "lessons": ["Forms and databases", "Automation steps", "AI actions and handoffs"]
+        },
+        {
+          "title": "Demo Readiness",
+          "lessons": ["Run user scenarios", "Capture feedback", "Decide what to build next"]
+        }
+      ]
+    },
+    {
+      "id": "ai-product-ux",
+      "pathId": "ai-native-builder",
+      "pathOrder": 4,
+      "title": "UX for AI Products",
+      "instructor": "Leah Brooks",
+      "category": "AI Native Builder",
       "level": "Intermediate",
       "rating": 4.9,
-      "reviews": 1840,
+      "reviews": 1265,
       "duration": 8,
-      "price": 189,
-      "seats": 45,
-      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
-      "summary": "Use AI assistants to organize tasks, plan projects, learn faster, and simplify everyday routines.",
-      "skills": ["Prompting", "Planning", "Automation"],
-      "lessons": ["Choose useful AI tasks", "Write clearer prompts", "Check AI answers", "Build daily routines"]
+      "price": 169,
+      "seats": 48,
+      "image": "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=900&q=80",
+      "summary": "Design AI interfaces that feel understandable, controllable, and trustworthy for normal users.",
+      "skills": ["AI UX", "Trust design", "Interface states"],
+      "outcomes": [
+        "Design input screens that help users ask for the right thing",
+        "Show AI confidence, assumptions, and edit controls clearly",
+        "Create UX patterns for loading, mistakes, and revision"
+      ],
+      "project": "Design a full interaction flow for an AI assistant, including onboarding, prompt input, generated output, editing, and correction states.",
+      "lessons": ["AI onboarding", "Input design", "Trust cues", "Human-in-the-loop edits"],
+      "modules": [
+        {
+          "title": "Making AI Understandable",
+          "lessons": ["Set expectations", "Explain what the tool needs", "Avoid magical black boxes"]
+        },
+        {
+          "title": "Interaction Patterns",
+          "lessons": ["Prompt builders", "Editable outputs", "Regenerate, refine, and compare"]
+        },
+        {
+          "title": "Trust and Recovery",
+          "lessons": ["Cite assumptions", "Handle bad outputs", "Design graceful correction loops"]
+        }
+      ]
+    },
+    {
+      "id": "ai-evaluation-quality",
+      "pathId": "ai-native-builder",
+      "pathOrder": 5,
+      "title": "Evaluation and Quality for AI Features",
+      "instructor": "Priya Morgan",
+      "category": "AI Native Builder",
+      "level": "Advanced",
+      "rating": 4.9,
+      "reviews": 1112,
+      "duration": 10,
+      "price": 219,
+      "seats": 36,
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+      "summary": "Measure whether an AI feature is actually good, safe, helpful, and ready for real users.",
+      "skills": ["Evaluation", "Quality systems", "Risk testing"],
+      "outcomes": [
+        "Create test sets for AI product behavior",
+        "Score output quality with practical rubrics",
+        "Track regressions before shipping changes"
+      ],
+      "project": "Build an evaluation sheet and scoring rubric for an AI assistant, then test it against ten realistic user requests.",
+      "lessons": ["Quality rubrics", "Golden datasets", "Regression checks", "Launch readiness"],
+      "modules": [
+        {
+          "title": "What Good Means",
+          "lessons": ["Define quality dimensions", "Create pass/fail rules", "Choose human review criteria"]
+        },
+        {
+          "title": "Testing AI Behavior",
+          "lessons": ["Build realistic prompts", "Catch edge cases", "Compare model and prompt versions"]
+        },
+        {
+          "title": "Operational Quality",
+          "lessons": ["Monitor user feedback", "Prioritize fixes", "Decide when not to automate"]
+        }
+      ]
+    },
+    {
+      "id": "ship-ai-native-product",
+      "pathId": "ai-native-builder",
+      "pathOrder": 6,
+      "title": "Ship Your AI Native Product",
+      "instructor": "Nolan Rivera",
+      "category": "AI Native Builder",
+      "level": "Advanced",
+      "rating": 4.8,
+      "reviews": 980,
+      "duration": 12,
+      "price": 249,
+      "seats": 30,
+      "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80",
+      "summary": "Turn your prototype into a usable product with onboarding, pricing, analytics, and launch feedback.",
+      "skills": ["Launch planning", "Analytics", "Product iteration"],
+      "outcomes": [
+        "Package an AI prototype for real users",
+        "Add onboarding, analytics, and feedback collection",
+        "Plan a small launch and first iteration cycle"
+      ],
+      "project": "Ship a public beta landing page and working demo for an AI-native product, then collect feedback from five users.",
+      "lessons": ["MVP packaging", "Analytics basics", "Feedback loops", "Launch checklist"],
+      "modules": [
+        {
+          "title": "From Demo to Product",
+          "lessons": ["Choose launch scope", "Write onboarding copy", "Create useful defaults"]
+        },
+        {
+          "title": "Measure the First Users",
+          "lessons": ["Track activation", "Collect qualitative feedback", "Find repeated friction"]
+        },
+        {
+          "title": "Launch and Iterate",
+          "lessons": ["Create a beta plan", "Prioritize fixes", "Decide what to build next"]
+        }
+      ]
+    },
+    {
+      "id": "everyday-ai-productivity",
+      "title": "Everyday AI for Personal Productivity",
+      "instructor": "Maya Chen",
+      "category": "AI",
+      "level": "Beginner",
+      "rating": 4.7,
+      "reviews": 3188,
+      "duration": 5,
+      "price": 89,
+      "seats": 140,
+      "image": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=900&q=80",
+      "summary": "Use AI to plan your week, summarize information, draft better messages, and make decisions faster.",
+      "skills": ["Prompting", "Planning", "Productivity"],
+      "outcomes": ["Build a daily AI routine", "Create reusable personal prompts", "Review AI answers safely"],
+      "project": "Create a personal AI command center with prompts for planning, reading, writing, and decision support.",
+      "lessons": ["Pick useful tasks", "Write reusable prompts", "Check answers", "Build habits"],
+      "modules": [
+        { "title": "Daily AI Basics", "lessons": ["Planning", "Summarizing", "Drafting", "Decision support"] },
+        { "title": "Personal Prompt Library", "lessons": ["Reusable formats", "Tone controls", "Review checklists"] }
+      ]
     },
     {
       "id": "product-discovery",
@@ -28,9 +263,15 @@
       "price": 129,
       "seats": 80,
       "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80",
-      "summary": "Run focused customer research, prioritize opportunities, and shape product bets with confidence.",
+      "summary": "Turn an idea into a focused product direction with interviews, prioritization, and a clear next bet.",
       "skills": ["Research", "Prioritization", "Roadmaps"],
-      "lessons": ["Frame the problem", "Interview customers", "Synthesize signals", "Choose the next bet"]
+      "outcomes": ["Interview potential users", "Find repeated problems", "Choose a focused first version"],
+      "project": "Run a mini discovery sprint for a product idea and produce a one-page opportunity brief.",
+      "lessons": ["Frame the problem", "Interview customers", "Synthesize signals", "Choose the next bet"],
+      "modules": [
+        { "title": "Discovery Setup", "lessons": ["Assumption mapping", "Interview planning", "Recruiting five users"] },
+        { "title": "Decision Making", "lessons": ["Signal synthesis", "Opportunity scoring", "First-version scope"] }
+      ]
     },
     {
       "id": "data-storytelling",
@@ -46,39 +287,13 @@
       "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
       "summary": "Turn personal, school, or small-project data into clear charts and simple stories.",
       "skills": ["Analytics", "Charts", "Reporting"],
-      "lessons": ["Choose useful numbers", "Clean dashboard layouts", "Write simple insights", "Share what you found"]
-    },
-    {
-      "id": "ux-systems",
-      "title": "UX Systems for SaaS Interfaces",
-      "instructor": "Leah Brooks",
-      "category": "Design",
-      "level": "Advanced",
-      "rating": 4.9,
-      "reviews": 980,
-      "duration": 10,
-      "price": 229,
-      "seats": 18,
-      "image": "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=900&q=80",
-      "summary": "Create scalable interaction patterns, component rules, and interface standards for complex software.",
-      "skills": ["Design systems", "UX", "Prototyping"],
-      "lessons": ["Audit interface debt", "Define component behavior", "Document patterns", "Govern design quality"]
-    },
-    {
-      "id": "sql-practical",
-      "title": "Practical SQL for Business Analysts",
-      "instructor": "Nolan Rivera",
-      "category": "Data",
-      "level": "Beginner",
-      "rating": 4.6,
-      "reviews": 3124,
-      "duration": 5,
-      "price": 99,
-      "seats": 120,
-      "image": "https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=900&q=80",
-      "summary": "Learn practical SQL for organizing information, answering questions, and exploring data.",
-      "skills": ["SQL", "Data quality", "Analysis"],
-      "lessons": ["Select and filter", "Join related tables", "Count and summarize", "Check data quality"]
+      "outcomes": ["Choose useful numbers", "Design readable dashboards", "Explain insights clearly"],
+      "project": "Create a dashboard and short narrative for a habit, budget, project, or community dataset.",
+      "lessons": ["Choose useful numbers", "Clean dashboard layouts", "Write simple insights", "Share what you found"],
+      "modules": [
+        { "title": "Dashboard Foundations", "lessons": ["Choose metrics", "Design chart hierarchy", "Avoid misleading visuals"] },
+        { "title": "Tell the Story", "lessons": ["Write plain-language insights", "Show tradeoffs", "Present next actions"] }
+      ]
     },
     {
       "id": "confident-communication",
@@ -94,39 +309,57 @@
       "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
       "summary": "Build clearer conversations, kinder feedback habits, and better decision-making in daily life.",
       "skills": ["Communication", "Feedback", "Planning"],
-      "lessons": ["Prepare for conversations", "Clarify decisions", "Give useful feedback", "Handle tension calmly"]
+      "outcomes": ["Prepare difficult conversations", "Ask better questions", "Give feedback without escalating tension"],
+      "project": "Create scripts and reflection notes for three real conversations you want to handle better.",
+      "lessons": ["Prepare for conversations", "Clarify decisions", "Give useful feedback", "Handle tension calmly"],
+      "modules": [
+        { "title": "Conversation Prep", "lessons": ["Clarify outcomes", "Name assumptions", "Choose better questions"] },
+        { "title": "Repair and Follow Through", "lessons": ["Lower tension", "Summarize decisions", "Create next steps"] }
+      ]
     },
     {
-      "id": "frontend-accessibility",
-      "title": "Accessible Frontend Foundations",
+      "id": "accessible-web-basics",
+      "title": "Accessible Web Basics",
       "instructor": "Jon Bell",
-      "category": "Engineering",
-      "level": "Intermediate",
+      "category": "Technology",
+      "level": "Beginner",
       "rating": 4.7,
       "reviews": 1120,
-      "duration": 9,
-      "price": 179,
-      "seats": 26,
+      "duration": 6,
+      "price": 119,
+      "seats": 70,
       "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80",
-      "summary": "Build keyboard-friendly, screen-reader-ready product interfaces with practical accessibility checks.",
-      "skills": ["HTML", "ARIA", "Testing"],
-      "lessons": ["Semantic structure", "Keyboard flows", "Accessible forms", "Regression checks"]
+      "summary": "Make websites easier for everyone to use with practical HTML, keyboard, color, and form checks.",
+      "skills": ["HTML", "Accessibility", "Testing"],
+      "outcomes": ["Use semantic HTML", "Test keyboard flows", "Fix common form and contrast issues"],
+      "project": "Audit and improve a simple webpage using an accessibility checklist.",
+      "lessons": ["Semantic structure", "Keyboard flows", "Accessible forms", "Regression checks"],
+      "modules": [
+        { "title": "Usable Foundations", "lessons": ["Headings and landmarks", "Links and buttons", "Readable contrast"] },
+        { "title": "Test What Matters", "lessons": ["Keyboard checks", "Form labels", "Screen reader basics"] }
+      ]
     },
     {
-      "id": "growth-experiments",
-      "title": "Growth Experiments That Compound",
+      "id": "creative-growth-projects",
+      "title": "Grow a Creative Project Online",
       "instructor": "Elena Park",
       "category": "Marketing",
-      "level": "Advanced",
-      "rating": 4.5,
-      "reviews": 740,
+      "level": "Intermediate",
+      "rating": 4.6,
+      "reviews": 1048,
       "duration": 6,
-      "price": 149,
-      "seats": 22,
+      "price": 139,
+      "seats": 58,
       "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80",
-      "summary": "Design acquisition experiments, measure lift, and build a growth backlog with compounding wins.",
-      "skills": ["Experimentation", "Funnels", "Positioning"],
-      "lessons": ["Choose growth loops", "Write test plans", "Measure lift", "Scale winning channels"]
+      "summary": "Share a personal project, newsletter, shop, or community idea with clearer positioning and simple experiments.",
+      "skills": ["Positioning", "Content", "Experiments"],
+      "outcomes": ["Explain your offer clearly", "Plan a simple content loop", "Run small growth experiments"],
+      "project": "Create a one-month launch plan for a personal project with three low-cost experiments.",
+      "lessons": ["Choose your audience", "Write positioning", "Plan content loops", "Measure what works"],
+      "modules": [
+        { "title": "Position the Project", "lessons": ["Audience choice", "Problem language", "Offer clarity"] },
+        { "title": "Experiment Simply", "lessons": ["Small tests", "Feedback capture", "Iteration plan"] }
+      ]
     }
   ],
   "users": [],
