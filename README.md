@@ -18,7 +18,8 @@ Open `http://localhost:4173`.
 - Checkout API with persisted orders and enrollment history
 - Admin metrics API for users, revenue, orders, enrollments, and top courses
 - Static production serving from the same Node process
-- JSON persistence in `data/store.json`
+- Postgres persistence when `DATABASE_URL` or `POSTGRES_URL` is configured
+- Local JSON fallback in `data/store.json`
 
 ## API
 
@@ -31,3 +32,7 @@ Open `http://localhost:4173`.
 - `PUT /api/cart`
 - `POST /api/orders`
 - `GET /api/admin/metrics`
+
+## Storage
+
+Production should use a Vercel Marketplace Postgres integration such as Neon. The server automatically uses Postgres when `DATABASE_URL` or `POSTGRES_URL` exists. Without those variables, it falls back to local JSON persistence.

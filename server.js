@@ -4,6 +4,7 @@ const fsp = require("node:fs/promises");
 const http = require("node:http");
 const path = require("node:path");
 const { URL } = require("node:url");
+const { Pool } = require("pg");
 
 const rootDir = __dirname;
 const dataDir = process.env.VERCEL ? path.join("/tmp", "insession-data") : path.join(rootDir, "data");
@@ -11,6 +12,13 @@ const seedPath = path.join(dataDir, "seed.json");
 const storePath = path.join(dataDir, "store.json");
 const sourceSeedPath = path.join(rootDir, "data", "seed.json");
 const port = Number(process.env.PORT || 4173);
+const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || "";
+const pool = databaseUrl
+  ? new Pool({
+      connectionString: databaseUrl,
+      ssl: databaseUrl.includes("sslmode=disable") ? false : { rejectUnauthorized: false },
+    })
+  : null;
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
@@ -24,6 +32,26 @@ const mimeTypes = {
 const rateLimits = new Map();
 
 async function ensureStore() {
+  if (pool) {
+    const seed = JSON.parse(await fsp.readFile(sourceSeedPath, "utf8"));
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS app_store (
+        id TEXT PRIMARY KEY,
+        data JSONB NOT NULL,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+    await pool.query(
+      `
+        INSERT INTO app_store (id, data)
+        VALUES ($1, $2::jsonb)
+        ON CONFLICT (id) DO NOTHING
+      `,
+      ["default", JSON.stringify(seed)],
+    );
+    return;
+  }
+
   await fsp.mkdir(dataDir, { recursive: true });
   if (!fs.existsSync(seedPath)) {
     await fsp.copyFile(sourceSeedPath, seedPath);
@@ -35,10 +63,18 @@ async function ensureStore() {
 
 async function readStore() {
   await ensureStore();
+  if (pool) {
+    const result = await pool.query("SELECT data FROM app_store WHERE id = $1", ["default"]);
+    return result.rows[0].data;
+  }
   return JSON.parse(await fsp.readFile(storePath, "utf8"));
 }
 
 async function writeStore(store) {
+  if (pool) {
+    await pool.query("UPDATE app_store SET data = $2::jsonb, updated_at = NOW() WHERE id = $1", ["default", JSON.stringify(store)]);
+    return;
+  }
   await fsp.writeFile(storePath, `${JSON.stringify(store, null, 2)}\n`);
 }
 
@@ -173,7 +209,7 @@ async function handleApi(req, res, url) {
   const store = await readStore();
 
   if (req.method === "GET" && url.pathname === "/api/health") {
-    sendJson(res, 200, { ok: true, app: "InSession", version: "1.0.0" });
+    sendJson(res, 200, { ok: true, app: "InSession", version: "1.0.0", storage: pool ? "postgres" : "json" });
     return;
   }
 
