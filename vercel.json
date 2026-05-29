@@ -1,5 +1,25 @@
 {
   "version": 2,
+  "functions": {
+    "server.js": {
+      "includeFiles": [
+        "index.html",
+        "styles.css",
+        "app.js",
+        "insession-logo.svg",
+        "data/seed.json"
+      ]
+    },
+    "api/[...path].js": {
+      "includeFiles": [
+        "index.html",
+        "styles.css",
+        "app.js",
+        "insession-logo.svg",
+        "data/seed.json"
+      ]
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
